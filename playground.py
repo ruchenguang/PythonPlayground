@@ -1,31 +1,24 @@
-path = "/Users/shine/Desktop/baozun_shop.json.json"
-shop_file = open(path, "r")
+path = "/Users/shine/Desktop/"
 
-lines = shop_file.readlines()
+# get the input file
+input_file_name = '属性分布.json'
+input_file = open(path + input_file_name, "r")
 
+lines = input_file.readlines()
 for line in lines:
-    attrs = line[1:-2].split(", ")
+    if 'id' in line:
+        kws = line.split(',')
+        i = 0
+        for i in range(0, kws.__len__()-1):
+            kw = kws[i]
+            if 'id' not in kw and "name" not in kw and "\n" not in kw:
+                content = kw.split(':')
+                content[1] = content[1].replace("\"", "")
+                kw = ":".join(content)
+                # print(":".join(content))
+            kws[i] = kw
+            # print(kw)
 
-    shop_name = ""
-    shop_url = ""
-    shop_id = ""
-    shop_local = ""
-    for attr in attrs:
-        [k, v] = attr.split(": ")
-        # print("key: " + k[1:-1] + ", value: " + v[1:-1])
-        key = k[1:-1]
-        value = v[1:-1]
-        if key == "shop_name":
-            shop_name = value
-        if key == "shop_url":
-            shop_url = "https:" + value
-        if key == "shop_id":
-            shop_id = value
-        if key == "shop_local":
-            shop_local = value
+        print(",".join(kws))
 
-    print(shop_name, shop_id, shop_local, shop_url, sep="\t")
-
-# print(lines.__len__())
-# while line = shop_file.readline():
-#     print(shop_file.readline())
+                    # print(attr.split(':')[1].replace("\"", ""))
